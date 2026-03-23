@@ -65,11 +65,37 @@ This is one of the reasons the project deserves a cleaner, more stable public pr
 
 - **Role:** temperature monitoring and relay-control hub
 - **Platform:** ESP32
+- **Build system:** PlatformIO
 - **Sensors:** DS18B20-based temperature inputs
 - **Outputs:** MQTT, web UI, relay/control support
 - **Integrations:** Home Assistant, ThingsBoard, and other MQTT-driven systems
 - **Related project:** bathroom / utility display client
 - **Status:** practical platform component with both personal and service-monitoring value
+
+---
+
+## Practical strengths
+
+### Robust multi-sensor DS18B20 handling
+
+One of the most important practical strengths of this project is that it is deliberately tolerant of **multiple DS18B20 sensors** on the 1-wire bus.
+
+That is worth calling out, because many example projects and libraries already become awkward once more than one DS18B20 is involved.
+
+### Tolerant of sensors appearing and disappearing
+
+The firmware is also designed to cope with sensors **appearing and disappearing** on the 1-wire bus without requiring a power cycle to recover.
+
+In practical terms, that means the system is intended to:
+
+- keep running when a sensor temporarily disappears
+- recover when a sensor comes back
+- avoid hanging on missing devices
+- tolerate real-world wiring and service conditions better than rigid demo code
+
+That behavior took real effort to get right, and it is one of the details that makes this repository more useful as a starting point for real installations.
+
+You could call it **hot-swappable DS18B20 support** with a straight face — at least by 1-wire standards.
 
 ---
 
@@ -108,6 +134,30 @@ Where needed, the SensorHub can also participate in relay-control or basic insta
 ### Upstream data source for related clients
 
 The hub is designed to work well on its own, but it also serves as the data source for a related display project.
+
+---
+
+## PlatformIO project
+
+This repository is maintained as a **PlatformIO** project.
+
+That matters for anyone who wants to build on it, because the build settings and library dependencies are defined in:
+
+- `platformio.ini`
+
+If you are exploring the project as a starting point for your own work, `platformio.ini` is one of the first files worth reading.
+
+It captures the current build assumptions more accurately than a generic “ESP32 + DS18B20” project description ever could.
+
+---
+
+## Library and dependency note
+
+This project builds on existing libraries and frameworks, and those dependencies deserve explicit credit.
+
+The exact build-time dependencies and platform settings are defined in `platformio.ini`. If you use this repository as a base for your own work, it is worth checking which libraries are included there and reading their own documentation as well.
+
+This repository adds value not by pretending to be written in isolation, but by combining solid building blocks into something more robust and more field-tolerant than the average quick example.
 
 ---
 
